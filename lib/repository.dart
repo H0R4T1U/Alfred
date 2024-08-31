@@ -8,7 +8,12 @@ class ReservationRepository {
   Future<List<Reservation>> getReservations() async {
     final response = await _service.fetchReservations();
     if(response.statusCode == 200){
-      return List<Reservation>.from(json.decode(response.body).map((x)=> Reservation.fromJson(x)));
+      List<Reservation> resvs = [];
+      final data = jsonDecode(response.body)['Reservations'] as List<dynamic>;
+      data.forEach((rsv) {
+        resvs.add(Reservation.fromJson(rsv));
+      });
+      return resvs;
     }else{
       throw Exception("Failed to Load!");
     }

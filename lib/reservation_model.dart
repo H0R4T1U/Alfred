@@ -16,10 +16,19 @@ class Reservation {
 
     factory Reservation.fromJson(Map<String,dynamic> json) => Reservation(
       name: json["name"],
-      room: int.parse(json["room"]),
-      booking: bool.parse(json["booking"]),
-      checkIn: json["check_in"],
-      checkOut: json["check_out"],
-      people: int.parse(json["people"]),
+      room: json["room"],
+      booking: json["booking"] == "true",
+      checkIn: DateTime.parse(json["checkIn"]),
+      checkOut: DateTime.parse(json["checkOut"]),
+      people: json["people"],
       );
+
+      Map<String, dynamic> toJson() => {
+        'name': name,
+        'room': room,
+        'booking': booking,
+        'check_in': checkIn,
+        'check_out':checkOut,
+        'people':people,
+      };
 }

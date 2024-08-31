@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:alfred/reservation_model.dart';
 import 'package:alfred/reservation_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:alfred/addScreen.dart';
 
 class ReservationView extends StatelessWidget {
   const ReservationView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -33,13 +33,21 @@ class ReservationView extends StatelessWidget {
           );
         }
       }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Provider.of<ReservationViewModel>(context,listen:false)
-          .fetchReservations();
-        },
-        child: Icon(Icons.refresh)
+
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>AddScreen()));
+          },
+            backgroundColor: Colors.green,
+            child: Icon(Icons.add)
+          ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.purple,
+          child: Container(height: 50.0,),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
@@ -102,7 +110,7 @@ class ListCard extends StatelessWidget {
   }
 }
 
-// class for hero detail screen
+// class for RESERVATION detail screen
 class ReservationDetailScreen extends StatelessWidget {
   const ReservationDetailScreen({super.key, required this.reservationDetail});
 
@@ -111,10 +119,20 @@ class ReservationDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(reservationDetail.name ?? "")),
+        appBar: AppBar(title: Text('Camera ${reservationDetail.room}' ?? "")),
         body: Container(
           decoration: const BoxDecoration(color: Colors.white),
-          child: Text(reservationDetail.room.toString()),
+          child: Center(
+            child: Column(
+              children: [
+                Text(reservationDetail.name.toString()),
+                Text(reservationDetail.checkIn.toString().split(' ')[0]),
+                Text(reservationDetail.checkOut.toString().split(' ')[0]),
+                Text(reservationDetail.people.toString()),
+                Text(reservationDetail.booking.toString())
+              ],
+            ),
+          ),
         ));
   }
 }
