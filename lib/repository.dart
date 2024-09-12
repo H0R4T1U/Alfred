@@ -10,9 +10,9 @@ class ReservationRepository {
     if(response.statusCode == 200){
       List<Reservation> resvs = [];
       final data = jsonDecode(response.body)['Reservations'] as List<dynamic>;
-      data.forEach((rsv) {
+      for (var rsv in data) {
         resvs.add(Reservation.fromJson(rsv));
-      });
+      }
       return resvs;
     }else{
       throw Exception("Failed to Load!");

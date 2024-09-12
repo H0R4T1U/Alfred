@@ -13,7 +13,7 @@ class ReservationViewModel extends ChangeNotifier {
   
   ReservationViewModel(){
     // Initialize the timer to fetch reservations periodically
-    _timer = Timer.periodic(Duration(seconds: 30), (timer) async{
+    _timer = Timer.periodic(const Duration(seconds: 30), (timer) async{
       await fetchReservations();
     });
   }

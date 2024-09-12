@@ -4,6 +4,6 @@ class ApiService {
   final String baseUrl = "http://localhost:8000";
 
   Future<http.Response> fetchReservations() async {
-    return await http.get(Uri.parse(baseUrl+"/fetch"));
+    return await http.get(Uri.parse("$baseUrl/fetch"));
   }
 }

@@ -38,13 +38,16 @@ class ReservationView extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>AddScreen()));
+              MaterialPageRoute(builder: (context) =>const AddScreen())
+              ).then((value){
+                Provider.of<ReservationViewModel>(context,listen:false).fetchReservations();
+              });
           },
-            backgroundColor: Colors.green,
-            child: Icon(Icons.add)
+            backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+            child: const Icon(Icons.add)
           ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.purple,
+          color: Theme.of(context).colorScheme.inversePrimary,
           child: Container(height: 50.0,),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -109,7 +112,79 @@ class ListCard extends StatelessWidget {
         ));
   }
 }
+class ReservationData extends StatelessWidget {
+  const ReservationData({
+    super.key,
+    required this.reservation,
+  });
 
+  final Reservation reservation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16)),
+           child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Center(
+              child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Camera: ${reservation.room.toString()}' ?? "",
+                          style: const TextStyle(
+                              color: Color.fromRGBO(225, 245, 254, 1),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.start,
+                        ),
+                        Text(
+                          'Nume: ${reservation.name}' ?? "",
+                          style: const TextStyle(
+                              color: Color.fromRGBO(225, 245, 254, 1),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Persoane: ${reservation.people.toString()}' ?? "",
+                          style: const TextStyle(
+                              color:Color.fromRGBO(225, 245, 254, 1),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Check In:${reservation.checkIn.toString().split(' ')[0]}' ?? "",
+                          style: const TextStyle(
+                              color: Color.fromRGBO(225, 245, 254, 1),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Check Out:${reservation.checkOut.toString().split(' ')[0]}'  ?? "",
+                          style: const TextStyle(
+                              color: Color.fromRGBO(225, 245, 254, 1),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Booking:${reservation.booking.toString()}' ?? "",
+                          style: const TextStyle(
+                              color: Color.fromRGBO(225, 245, 254, 1),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                        ),
+
+              ]))
+            ),
+          ),
+        ),
+    );
+  }
+}
 // class for RESERVATION detail screen
 class ReservationDetailScreen extends StatelessWidget {
   const ReservationDetailScreen({super.key, required this.reservationDetail});
@@ -119,19 +194,13 @@ class ReservationDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Camera ${reservationDetail.room}' ?? "")),
+        appBar: AppBar(
+          title: Text('Camera ${reservationDetail.room}' ?? ""),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        ),
         body: Container(
-          decoration: const BoxDecoration(color: Colors.white),
           child: Center(
-            child: Column(
-              children: [
-                Text(reservationDetail.name.toString()),
-                Text(reservationDetail.checkIn.toString().split(' ')[0]),
-                Text(reservationDetail.checkOut.toString().split(' ')[0]),
-                Text(reservationDetail.people.toString()),
-                Text(reservationDetail.booking.toString())
-              ],
-            ),
+            child: ReservationData(reservation: reservationDetail)
           ),
         ));
   }
