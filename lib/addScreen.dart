@@ -1,33 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
-
-@JsonSerializable()
-class FormData {
-  String? nume;
-  int? persoane;
-  String? checkIn;
-  String? checkOut;
-  bool? booking;
-
-  FormData({
-    this.booking,
-    this.checkIn,
-    this.checkOut,
-    this.nume,
-    this.persoane,
-  });
-  Map<String, dynamic> toJson() => <String,dynamic>{
-    'nume': nume,
-    'persoane': persoane,
-    'checkIn':checkIn,
-    'checkOut':checkOut,
-    'booking':booking,
-  };
-
-
-}
+import 'package:alfred/reservation_model.dart';
 class AddScreen extends StatefulWidget{
 
   const AddScreen({
@@ -43,7 +17,7 @@ class _AddScreenState extends State<AddScreen> {
   final TextEditingController _checkInController = TextEditingController();
   final TextEditingController _checkOutController = TextEditingController();
   bool booking = false;
-  FormData formdata = FormData();
+  Reservation formdata = Reservation();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +47,7 @@ class _AddScreenState extends State<AddScreen> {
                   if(value == null || value.isEmpty){
                     return "Introdu un nume!";
                   }
-                  formdata.nume = value; // adaugam la formadata numele daca trece validarea
+                  formdata.name = value; // adaugam la formadata numele daca trece validarea
                   return null;
                 },
                 
@@ -95,7 +69,7 @@ class _AddScreenState extends State<AddScreen> {
                     return "Introdu nr persoane!";
                   }
                   try{
-                    formdata.persoane = int.parse(value);
+                    formdata.people = int.parse(value);
                   }catch(e){
                     return "Introdu un numar intreg!";
                   }
@@ -189,11 +163,11 @@ class _AddScreenState extends State<AddScreen> {
                         200 => 'Rezervare Adaugata!',
                         _ => 'Ceva nu a functionat, va rugam sa incercati din nou!'
                       });
+                      
                     }
                     
-                    
                   },
-                  child: const Text('Salveaza'),
+                  child: const Text('Salveaza',style: TextStyle(color: Colors.white),),
                       ),
               ),
             ),
@@ -210,7 +184,7 @@ class _AddScreenState extends State<AddScreen> {
       if(checkIn != null){
         setState(() {
           _checkInController.text = checkIn.toString().split(" ")[0];
-          formdata.checkIn = _checkInController.text;
+          formdata.checkIn = DateTime.parse(_checkInController.text);
         });
       }
   }
@@ -219,7 +193,7 @@ class _AddScreenState extends State<AddScreen> {
       if(checkOut != null){
         setState(() {
           _checkOutController.text = checkOut.toString().split(" ")[0];
-          formdata.checkOut = _checkOutController.text;
+          formdata.checkOut = DateTime.parse(_checkOutController.text);
 
         });
       }

@@ -1,2 +1,3 @@
 # Alfred
-Alfred is my attempt to automatize the reservation process at my hotel.
+Alfred is the client side of my reservation system made for hotels.
+It allows the user to view,add and delete reservations and the backend will assign a room best suited for the reservation details.
